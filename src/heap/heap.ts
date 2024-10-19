@@ -52,8 +52,13 @@ export class BinaryHeap<T extends { value: number }> {
                 }
                 break;
             }
-
+            
             const rightNode = this.heap[j];
+
+            if (this.heap[k].value < leftNode.value && this.heap[k].value < rightNode.value) {
+                break;
+            }
+
             if (leftNode.value < rightNode.value) {
                 this.swap(i, k);
                 k = i;
