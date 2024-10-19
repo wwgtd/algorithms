@@ -1,4 +1,4 @@
-class Heap<T extends { value: number }> {
+export class Heap<T extends { value: number }> {
     private heap: T[] = [];
 
     constructor(initialValues?: T[]) {
@@ -13,13 +13,13 @@ class Heap<T extends { value: number }> {
         this.bubbleUp(this.heap.length - 1);
     }
 
-    extractMin = () => {
-        if (this.heap.length === 0) {
+    extractMin = (): T => {
+        if (this.length === 0) {
             throw new Error(`can't extract from empty heap!`);
         }
 
-        if (this.heap.length === 1) {
-            return this.heap.pop();
+        if (this.length === 1) {
+            return this.heap.pop()!;
         }
 
         const min = this.heap[0];
@@ -29,6 +29,10 @@ class Heap<T extends { value: number }> {
         for (let k = 0; k < this.heap.length;) {
             const i = Math.max(k * 2, 1);
             const j = i + 1;
+
+            if (i >= this.heap.length) {
+                break;
+            }
 
             const leftNode = this.heap[i];
             if (j === this.heap.length) {
@@ -47,8 +51,12 @@ class Heap<T extends { value: number }> {
                 k = j;
             }
         }
-        
+
         return min;
+    }
+
+    public log() {
+        console.log("current heap values:" + this.heap.map(node => ` value: ${node.value}`));
     }
 
     public descreaseKey = (node: T, newValue: number) => {
@@ -56,6 +64,10 @@ class Heap<T extends { value: number }> {
 
         const nodeIndex = this.heap.indexOf(node);
         this.bubbleUp(nodeIndex);
+    }
+
+    get length() {
+        return this.heap.length;
     }
 
     private getParentIndex = (idx: number) => {
@@ -86,14 +98,4 @@ class Heap<T extends { value: number }> {
             }
         }
     }
-
-    public log() {
-        console.log("current heap values:" + this.heap.map(node => ` ${node.value}`));
-    }
 }
-
-const valuesToInsert = [14, 13, 15, 17, 11, 16, 10, 8, 4, 2].map(value => ({value}));
-const heap = new Heap(valuesToInsert);
-heap.log();
-heap.descreaseKey(valuesToInsert[5], 0);
-heap.log();
