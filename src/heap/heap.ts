@@ -1,10 +1,21 @@
-export class Heap<T extends { value: number }> {
+export class BinaryHeap<T extends { value: number }> {
     private heap: T[] = [];
 
     constructor(initialValues?: T[]) {
         if (initialValues) {
             initialValues.forEach(this.insert);
         }
+    }
+
+    getSortedValues() {
+        const heap = new BinaryHeap(this.heap);
+
+        const result = [];
+        while (heap.length > 0) {
+            result.push(heap.extractMin());
+        }
+
+        return result;
     }
 
     insert = (value: T) => {

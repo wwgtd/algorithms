@@ -1,4 +1,4 @@
-import { Heap } from "../heap/heap";
+import { BinaryHeap } from "../heap/heap";
 
 type VertexData = {
     value: number, // as shortest
@@ -33,7 +33,7 @@ export const topologicalSort = (graph: Graph): number[] => {
 }
 
 export const dextra = (graph: Graph) => {
-    const vertices = new Heap(graph);
+    const vertices = new BinaryHeap(graph);
     const previous = new Array(graph.length).fill(null);
 
     while (vertices.length > 0) {
